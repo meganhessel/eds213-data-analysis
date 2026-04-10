@@ -115,6 +115,7 @@ Read the nest data in
 nests_data <- read_csv(here(path_raw, nests_csv))
 
 glimpse(nests_data)
+
 ```
 
 Yeah! `Date_found` is already in date format! We can thus directly aggregate the data by months:
@@ -138,14 +139,22 @@ The Date is stored as a character :/, we thus first we need to transform the dat
 
 ```{r}
 snowcover_data_fixed <- snowcover_data %>%
-  
+  mutate(Date2 = as_date(Date))
+
+str(snowcover_data_fixed)
+
 ```
 
 We have 72 errors. Let's have a look at the date which failed:
 
 ```{r}
-snowcover_data_fixed %>% 
+snowcover_data_fixed <- snowcover_data_fixed %>% 
+  mutate(Date = ifelse(Date == "8&9 june 06", "08-June-06", Date))
 
+snowcover_data_fixed <- snowcover_data_fixed %>%
+  mutate(Date2 = as_date(Date))
+
+str(snowcover_data_fixed)
 ```
 
 
@@ -153,6 +162,7 @@ It is because 2 days were entered as one value `8&9 june 06`, it is not in the e
 
 ```{r}
 snowcover_data_fixed <- snowcover_data_fixed %>%
+  
   
 ```
 
